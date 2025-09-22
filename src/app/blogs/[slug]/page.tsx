@@ -1,23 +1,50 @@
+"use client";
 
-import { Header } from '@/components/landing/header';
-import { Footer } from '@/components/landing/footer';
-import { blogsData } from '@/lib/blogs';
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Calendar, User } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { useEffect, useState } from "react";
+import { Header } from "@/components/landing/header";
+import { Footer } from "@/components/landing/footer";
+import { notFound, useParams } from "next/navigation";
+import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Calendar } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { getBlogByIdApi, TBlog } from "@/services/blog.service";
 
-export function generateStaticParams() {
-  return blogsData.map((blog) => ({
-    slug: blog.slug,
-  }));
-}
+export default function BlogDetailsPage() {
+  const params = useParams<{ slug: string }>();
+  const [blog, setBlog] = useState<TBlog | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-export default function BlogDetailsPage({ params }: { params: { slug: string } }) {
-  const blog = blogsData.find((b) => b.slug === params.slug);
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        setLoading(true);
+        const res = await getBlogByIdApi(params.slug);
+        if (res.status === 200) {
+          setBlog(res.data);
+        } else {
+          setError(true);
+        }
+      } catch (err) {
+        console.error("Failed to fetch blog:", err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlog();
+  }, [params.slug]);
 
-  if (!blog) {
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-dvh">
+        <p className="text-muted-foreground">Loading blog...</p>
+      </div>
+    );
+  }
+
+  if (error || !blog) {
     notFound();
   }
 
@@ -28,33 +55,60 @@ export default function BlogDetailsPage({ params }: { params: { slug: string } }
         <div className="container mx-auto">
           <article className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
-              <Badge variant="secondary" className="text-base mb-4">{blog.category}</Badge>
+              <Badge variant="secondary" className="text-base mb-4">
+                {blog?.category?.name}
+              </Badge>
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl font-headline">
-                {blog.title}
+                {blog?.title}
               </h1>
               <div className="mt-8 flex justify-center items-center gap-8 text-muted-foreground">
                 <div className="flex items-center gap-3">
                   <Avatar className="h-12 w-12 border-2 border-primary/50">
-                    <AvatarImage src={blog.authorImage} alt={blog.author} />
-                    <AvatarFallback>{blog.author.charAt(0)}</AvatarFallback>
+                    <AvatarImage src="/default-avatar.png" alt="Author" />
+                    <AvatarFallback>A</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-semibold text-foreground">{blog.author}</p>
+                    <p className="font-semibold text-foreground">Author</p>
                   </div>
                 </div>
-                <div className='flex items-center gap-2'>
+                <div className="flex items-center gap-2">
                   <Calendar className="w-5 h-5" />
-                  <span>{blog.date}</span>
+                  <span>
+                    {new Date(blog?.createdAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
                 </div>
               </div>
             </div>
 
-            <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl mb-12">
-              <Image src={blog.image} alt={blog.title} fill className="object-cover" data-ai-hint={blog.aiHint} />
-            </div>
+            {blog?.image?.url && (
+              <div className="relative aspect-video w-full overflow-hidden rounded-2xl shadow-2xl mb-12">
+                <Image
+                  src={blog.image.url}
+                  alt={blog.image.altText || blog.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
 
-            <div className="prose prose-lg lg:prose-xl max-w-none mx-auto" dangerouslySetInnerHTML={{ __html: blog.longDescription }} />
-          
+            {/* Blog content rendering */}
+            <div className="prose prose-lg lg:prose-xl max-w-none mx-auto">
+              {blog?.content?.blocks?.map((block) => {
+                if (block.type === "paragraph") {
+                  return <p key={block.id}>{block.data.text}</p>;
+                }
+                if (block.type === "header") {
+                  const Tag = `h${block.data.level || 2}` as keyof JSX.IntrinsicElements;
+                  return <Tag key={block.id}>{block.data.text}</Tag>;
+                }
+                // Extend with more block types if needed
+                return null;
+              })}
+            </div>
           </article>
         </div>
       </main>

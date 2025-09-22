@@ -1,26 +1,54 @@
-
 "use client";
 
-import { useState } from 'react';
-import { Header } from '@/components/landing/header';
-import { Footer } from '@/components/landing/footer';
-import { blogsData } from '@/lib/blogs';
-import Image from 'next/image';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { ArrowRight, Calendar } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import { useState, useEffect, useMemo } from "react";
+import { Header } from "@/components/landing/header";
+import { Footer } from "@/components/landing/footer";
+import Image from "next/image";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowRight, Calendar } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { getAllBlogsApi, TBlog } from "@/services/blog.service";
 
 export default function AllBlogsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  
-  const categories = ['All', ...Array.from(new Set(blogsData.map((blog) => blog.category)))];
+  const [blogs, setBlogs] = useState<TBlog[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [offset, setOffset] = useState(0);
+  const [limit] = useState(9);
+  const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const filteredBlogs = blogsData.filter(
-    (blog) => selectedCategory === 'All' || blog.category === selectedCategory
+  const fetchBlogs = async () => {
+    try {
+      setLoading(true);
+      const res = await getAllBlogsApi(offset, limit);
+      if (res.status === 200) {
+        setBlogs((prev) => [...prev, ...res.data.blogs]);
+        setTotalCount(res.data.totalCount);
+      }
+    } catch (err) {
+      console.error("Failed to fetch blogs:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offset]);
+
+  // Extract categories dynamically
+  const categories = useMemo(() => {
+    const unique = new Set(blogs.map((b) => b.category?.name));
+    return ["All", ...Array.from(unique)];
+  }, [blogs]);
+
+  const filteredBlogs = blogs.filter(
+    (blog) => selectedCategory === "All" || blog.category?.name === selectedCategory
   );
 
   return (
@@ -37,14 +65,17 @@ export default function AllBlogsPage() {
             </p>
           </div>
 
+          {/* Category Filter */}
           <div className="mt-16 mb-12 flex justify-center flex-wrap gap-4">
             {categories.map((category) => (
               <Button
                 key={category}
-                variant={selectedCategory === category ? 'default' : 'outline'}
+                variant={selectedCategory === category ? "default" : "outline"}
                 className={cn(
                   "rounded-full px-6 py-2 transition-all duration-200",
-                  selectedCategory === category ? "shadow-lg shadow-primary/30" : "bg-background/50"
+                  selectedCategory === category
+                    ? "shadow-lg shadow-primary/30"
+                    : "bg-background/50"
                 )}
                 onClick={() => setSelectedCategory(category)}
               >
@@ -53,46 +84,86 @@ export default function AllBlogsPage() {
             ))}
           </div>
 
+          {/* Blogs Grid */}
           <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredBlogs.map((blog) => (
-              <Card key={blog.slug} className="overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col border shadow-lg">
+              <Card
+                key={blog._id}
+                className="overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col border shadow-lg"
+              >
                 <div className="relative aspect-video overflow-hidden">
                   <Image
-                    src={blog.image}
-                    alt={blog.title}
+                    src={blog.image?.url || "/placeholder.jpg"}
+                    alt={blog.image?.altText || blog.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    data-ai-hint={blog.aiHint}
                   />
-                   <Badge variant="secondary" className="absolute top-4 right-4">{blog.category}</Badge>
+                  <Badge variant="secondary" className="absolute top-4 right-4">
+                    {blog.category?.name}
+                  </Badge>
                 </div>
                 <CardContent className="p-8 flex-grow">
-                  <h3 className="text-2xl font-bold font-headline mb-4">{blog.title}</h3>
+                  <h3 className="text-2xl font-bold font-headline mb-4">
+                    {blog.title}
+                  </h3>
                   <div className="flex items-center text-sm text-muted-foreground gap-6 mb-4">
-                      <div className='flex items-center gap-2'>
-                          <Calendar className="w-4 h-4" />
-                          <span>{blog.date}</span>
-                      </div>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4" />
+                      <span>
+                        {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </span>
+                    </div>
                   </div>
-                  <p className="text-muted-foreground line-clamp-3">{blog.description}</p>
+                  <p className="text-muted-foreground line-clamp-3">
+                    {blog.content?.blocks?.[0]?.data?.text || "No description available."}
+                  </p>
                 </CardContent>
                 <CardFooter className="p-8 pt-0 flex justify-between items-center">
-                   <div className="flex items-center gap-3">
-                      <Avatar className="h-10 w-10 border-2 border-primary/50">
-                          <AvatarImage src={blog.authorImage} alt={blog.author} />
-                          <AvatarFallback>{blog.author.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                          <p className="font-semibold text-foreground text-sm">{blog.author}</p>
-                      </div>
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-10 w-10 border-2 border-primary/50">
+                      <AvatarImage src="/default-avatar.png" alt="Author" />
+                      <AvatarFallback>A</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-semibold text-foreground text-sm">Author</p>
+                    </div>
                   </div>
-                  <Button variant="link" asChild className="p-0 h-auto text-primary font-semibold">
-                    <Link href={`/blogs/${blog.slug}`}>Read More <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  <Button
+                    variant="link"
+                    asChild
+                    className="p-0 h-auto text-primary font-semibold"
+                  >
+                    <Link href={`/blogs/${blog._id}`}>
+                      Read More <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
                   </Button>
                 </CardFooter>
               </Card>
             ))}
           </div>
+
+          {/* Load More */}
+          {blogs.length < totalCount && (
+            <div className="flex justify-center mt-12">
+              <Button
+                onClick={() => setOffset((prev) => prev + limit)}
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Load More"}
+              </Button>
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!loading && filteredBlogs.length === 0 && (
+            <p className="text-center text-muted-foreground mt-12">
+              No blogs available for this category.
+            </p>
+          )}
         </div>
       </main>
       <Footer />
