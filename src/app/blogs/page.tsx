@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/landing/header";
 import { Footer } from "@/components/landing/footer";
 import Image from "next/image";
@@ -12,21 +12,42 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { getAllBlogsApi, TBlog } from "@/services/blog.service";
+import { renderEditorHTML } from "@/utils/editorTextRenderer";
+import { getAllCategoriesApi, TCategory } from "@/services/category.service";
+import BlogCardSkeleton from "../skeletons/blogCardSkeleton";
 
 export default function AllBlogsPage() {
   const [blogs, setBlogs] = useState<TBlog[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [categories, setCategories] = useState<TCategory[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [offset, setOffset] = useState(0);
   const [limit] = useState(9);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  /** Fetch all categories once */
+  const fetchCategories = async () => {
+    try {
+      const res = await getAllCategoriesApi();
+      if (res.status === 200) {
+        setCategories(res.data.categories || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch categories:", err);
+    }
+  };
+
+  /** Fetch blogs with category filter */
   const fetchBlogs = async () => {
     try {
       setLoading(true);
-      const res = await getAllBlogsApi(offset, limit);
+      const res = await getAllBlogsApi(offset, limit, "", selectedCategoryId ?? undefined);
       if (res.status === 200) {
-        setBlogs((prev) => [...prev, ...res.data.blogs]);
+        if (offset === 0) {
+          setBlogs(res.data.blogs);
+        } else {
+          setBlogs((prev) => [...prev, ...res.data.blogs]);
+        }
         setTotalCount(res.data.totalCount);
       }
     } catch (err) {
@@ -37,25 +58,25 @@ export default function AllBlogsPage() {
   };
 
   useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
     fetchBlogs();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offset]);
+  }, [offset, selectedCategoryId]);
 
-  // Extract categories dynamically
-  const categories = useMemo(() => {
-    const unique = new Set(blogs.map((b) => b.category?.name));
-    return ["All", ...Array.from(unique)];
-  }, [blogs]);
-
-  const filteredBlogs = blogs.filter(
-    (blog) => selectedCategory === "All" || blog.category?.name === selectedCategory
-  );
+  const handleCategoryChange = (categoryId: string | null) => {
+    setSelectedCategoryId(categoryId);
+    setOffset(0);
+    setBlogs([]);
+  };
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">
       <Header />
       <main className="flex-1 py-24 sm:py-32">
         <div className="container mx-auto">
+          {/* Header */}
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl font-headline">
               Our Blog
@@ -65,35 +86,52 @@ export default function AllBlogsPage() {
             </p>
           </div>
 
-          {/* Category Filter */}
+          {/* ✅ Category Filter (independent of blog data) */}
           <div className="mt-16 mb-12 flex justify-center flex-wrap gap-4">
+            <Button
+              key="all"
+              variant={!selectedCategoryId ? "default" : "outline"}
+              className={cn(
+                "rounded-full px-6 py-2 transition-all duration-200",
+                !selectedCategoryId
+                  ? "shadow-lg shadow-primary/30"
+                  : "bg-background/50"
+              )}
+              onClick={() => handleCategoryChange(null)}
+            >
+              All
+            </Button>
+
             {categories.map((category) => (
               <Button
-                key={category}
-                variant={selectedCategory === category ? "default" : "outline"}
+                key={category._id}
+                variant={selectedCategoryId === category._id ? "default" : "outline"}
                 className={cn(
                   "rounded-full px-6 py-2 transition-all duration-200",
-                  selectedCategory === category
+                  selectedCategoryId === category._id
                     ? "shadow-lg shadow-primary/30"
                     : "bg-background/50"
                 )}
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => handleCategoryChange(category._id)}
               >
-                {category}
+                {category.name}
               </Button>
             ))}
           </div>
 
           {/* Blogs Grid */}
           <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredBlogs.map((blog) => (
+            {loading ? (
+              // Show skeletons only when initially loading
+              Array.from({ length: 3 }).map((_, i) => <BlogCardSkeleton key={i} />)
+            ) : blogs.map((blog) => (
               <Card
                 key={blog._id}
                 className="overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col border shadow-lg"
               >
                 <div className="relative aspect-video overflow-hidden">
                   <Image
-                    src={blog.image?.url || "/placeholder.jpg"}
+                    src={blog.image?.url || "/blog/placeholder.webp"}
                     alt={blog.image?.altText || blog.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -118,9 +156,12 @@ export default function AllBlogsPage() {
                       </span>
                     </div>
                   </div>
-                  <p className="text-muted-foreground line-clamp-3">
-                    {blog.content?.blocks?.[0]?.data?.text || "No description available."}
-                  </p>
+                  <div
+                    className="text-muted-foreground line-clamp-3 prose prose-sm"
+                    dangerouslySetInnerHTML={{
+                      __html: renderEditorHTML(blog.content, 220),
+                    }}
+                  />
                 </CardContent>
                 <CardFooter className="p-8 pt-0 flex justify-between items-center">
                   <div className="flex items-center gap-3">
@@ -129,7 +170,9 @@ export default function AllBlogsPage() {
                       <AvatarFallback>A</AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-semibold text-foreground text-sm">Author</p>
+                      <p className="font-semibold text-foreground text-sm">
+                        {blog.createdBy?.name}
+                      </p>
                     </div>
                   </div>
                   <Button
@@ -149,17 +192,14 @@ export default function AllBlogsPage() {
           {/* Load More */}
           {blogs.length < totalCount && (
             <div className="flex justify-center mt-12">
-              <Button
-                onClick={() => setOffset((prev) => prev + limit)}
-                disabled={loading}
-              >
+              <Button onClick={() => setOffset((prev) => prev + limit)} disabled={loading}>
                 {loading ? "Loading..." : "Load More"}
               </Button>
             </div>
           )}
 
           {/* Empty State */}
-          {!loading && filteredBlogs.length === 0 && (
+          {!loading && blogs.length === 0 && (
             <p className="text-center text-muted-foreground mt-12">
               No blogs available for this category.
             </p>

@@ -12,7 +12,21 @@ export interface TBlog {
     isDelete: boolean
     createdAt: string
     updatedAt: string,
-    image: image
+    image: image,
+    createdBy: adminUser,
+    __v: number
+}
+
+interface adminUser {
+    _id: string
+    name: string
+    email: string
+    password: string
+    role: string
+    isActive: boolean
+    isDelete: boolean
+    createdAt: string
+    updatedAt: string
     __v: number
 }
 
@@ -85,12 +99,13 @@ export interface ApiResponse<T> {
 export const getAllBlogsApi = async (
     offset: number = 0,
     limit: number = 10,
-    search: string = ""
+    search: string = "",
+    categoryId?: string
 ): Promise<ApiResponse<{ blogs: TBlog[]; totalCount: number }>> => {
     const { data } = await axiosInstance.get<
         ApiResponse<{ blogs: TBlog[]; totalCount: number }>
     >("/v1/blog/getAllBlogs", {
-        params: { offset, limit, search },
+        params: { offset, limit, search, categoryId },
     });
     return data;
 };
