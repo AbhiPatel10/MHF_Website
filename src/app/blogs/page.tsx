@@ -24,16 +24,23 @@ export default function AllBlogsPage() {
   const [limit] = useState(9);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [loadingCategory, setLoadingCategory] = useState(false);
 
   /** Fetch all categories once */
   const fetchCategories = async () => {
     try {
+      setLoadingCategory(true);
       const res = await getAllCategoriesApi();
       if (res.status === 200) {
         setCategories(res.data.categories || []);
       }
     } catch (err) {
       console.error("Failed to fetch categories:", err);
+    } finally {
+      setTimeout(() => {
+        setLoadingCategory(false);
+
+      }, 200);
     }
   };
 
@@ -88,35 +95,46 @@ export default function AllBlogsPage() {
 
           {/* ✅ Category Filter (independent of blog data) */}
           <div className="mt-16 mb-12 flex justify-center flex-wrap gap-4">
-            <Button
-              key="all"
-              variant={!selectedCategoryId ? "default" : "outline"}
-              className={cn(
-                "rounded-full px-6 py-2 transition-all duration-200",
-                !selectedCategoryId
-                  ? "shadow-lg shadow-primary/30"
-                  : "bg-background/50"
-              )}
-              onClick={() => handleCategoryChange(null)}
-            >
-              All
-            </Button>
 
-            {categories.map((category) => (
+            {loadingCategory ? (
+              // 🦴 Skeleton for categories
+              Array.from({ length: 10 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-10 w-28 rounded-full bg-muted animate-pulse"
+                ></div>
+              ))
+            ) : <>
               <Button
-                key={category._id}
-                variant={selectedCategoryId === category._id ? "default" : "outline"}
+                key="all"
+                variant={!selectedCategoryId ? "default" : "outline"}
                 className={cn(
                   "rounded-full px-6 py-2 transition-all duration-200",
-                  selectedCategoryId === category._id
+                  !selectedCategoryId
                     ? "shadow-lg shadow-primary/30"
                     : "bg-background/50"
                 )}
-                onClick={() => handleCategoryChange(category._id)}
+                onClick={() => handleCategoryChange(null)}
               >
-                {category.name}
+                All
               </Button>
-            ))}
+
+              {categories.map((category) => (
+                <Button
+                  key={category._id}
+                  variant={selectedCategoryId === category._id ? "default" : "outline"}
+                  className={cn(
+                    "rounded-full px-6 py-2 transition-all duration-200",
+                    selectedCategoryId === category._id
+                      ? "shadow-lg shadow-primary/30"
+                      : "bg-background/50"
+                  )}
+                  onClick={() => handleCategoryChange(category._id)}
+                >
+                  {category.name}
+                </Button>
+              ))}
+            </>}
           </div>
 
           {/* Blogs Grid */}

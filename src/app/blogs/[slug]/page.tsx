@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getBlogByIdApi, TBlog } from "@/services/blog.service";
+import { renderEditorHTML } from "@/utils/editorTextRenderer";
 
 export default function BlogDetailsPage() {
   const params = useParams<{ slug: string }>();
@@ -64,11 +65,11 @@ export default function BlogDetailsPage() {
               <div className="mt-8 flex justify-center items-center gap-8 text-muted-foreground">
                 <div className="flex items-center gap-3">
                   <Avatar className="h-12 w-12 border-2 border-primary/50">
-                    <AvatarImage src="/default-avatar.png" alt="Author" />
+                    <AvatarImage src="/default-avatar.png" alt={blog.createdBy?.name} />
                     <AvatarFallback>A</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-semibold text-foreground">Author</p>
+                    <p className="font-semibold text-foreground">{blog.createdBy?.name}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -97,17 +98,12 @@ export default function BlogDetailsPage() {
 
             {/* Blog content rendering */}
             <div className="prose prose-lg lg:prose-xl max-w-none mx-auto">
-              {blog?.content?.blocks?.map((block) => {
-                if (block.type === "paragraph") {
-                  return <p key={block.id}>{block.data.text}</p>;
-                }
-                if (block.type === "header") {
-                  const Tag = `h${block.data.level || 2}` as keyof JSX.IntrinsicElements;
-                  return <Tag key={block.id}>{block.data.text}</Tag>;
-                }
-                // Extend with more block types if needed
-                return null;
-              })}
+              <div
+                className=""
+                dangerouslySetInnerHTML={{
+                  __html: renderEditorHTML(blog.content),
+                }}
+              />
             </div>
           </article>
         </div>
