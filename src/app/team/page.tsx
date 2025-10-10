@@ -4,12 +4,15 @@ import { Header } from "@/components/landing/header";
 import { Footer } from "@/components/landing/footer";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Loader2 } from "lucide-react";
+import { Loader2, MoveRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { TGetAllTeamMembers } from "@/utils/types/teamMember.types";
 import { getAllTeamMembersApi } from "@/services/teamMemberService";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { VolunteerForm } from "@/components/team/volunteer-form";
 
 export default function TeamPage() {
   const president = {
@@ -241,6 +244,28 @@ export default function TeamPage() {
                   ))}
             </div>
           </div>
+
+          <div className="mt-24 text-center">
+            <div className="max-w-3xl mx-auto p-8 rounded-3xl bg-secondary/30">
+                 <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl font-headline">
+                    Become a Volunteer
+                </h2>
+                <p className="mt-4 text-lg text-muted-foreground">
+                    Join our team and make a difference. We are always looking for passionate individuals to help us in our mission.
+                </p>
+                <Dialog>
+                    <DialogTrigger asChild>
+                         <Button size="lg" className="mt-8 rounded-full px-10 py-7 text-lg group">
+                            Apply Now <MoveRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <VolunteerForm />
+                    </DialogContent>
+                </Dialog>
+            </div>
+          </div>
+
         </div>
       </main>
       <Footer />

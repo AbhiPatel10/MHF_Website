@@ -19,10 +19,15 @@ export const Footer: FC = () => {
       <div className="container mx-auto px-4 py-16 md:px-6">
         <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-4">
-                 <Link href="/" className="flex items-center gap-2 font-bold text-2xl">
+                 {/* <Link href="/" className="flex items-center gap-2 font-bold text-2xl">
                     <Sprout className="h-8 w-8 text-primary" />
                     <span className='font-headline tracking-tighter'>Mission Hope</span>
-                </Link>
+                </Link> */}
+                <div className="navbar-header order-0 m-auto" style={{ flex: '0 0 auto' }}>
+                    <Link className="navbar-brand" href="/">
+                    <img src="/logos/logo.png" alt="logo" width={100} height={100} />
+                    </Link>
+                </div>
                 <p className="text-muted-foreground mt-4 max-w-xs">
                     A ray of hope for the needy.
                 </p>

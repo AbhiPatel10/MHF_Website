@@ -10,6 +10,8 @@ const partners = [
   { name: 'Hope Givers', logo: 'https://missionhopefoundation.in/imgs/partners/TheOneTechnologies.png', aiHint: 'company logo' },
 ];
 
+const allPartners = [...partners, ...partners];
+
 export const Partners: FC = () => {
   return (
     <section id="partners" className="bg-secondary/30">
@@ -19,19 +21,21 @@ export const Partners: FC = () => {
             Trusted by organizations worldwide
           </h3>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8 md:gap-x-16">
-          {partners.map((partner) => (
-            <div key={partner.name} className="grayscale transition hover:grayscale-0 opacity-50 hover:opacity-100 transform hover:scale-110">
-              <Image
-                src={partner.logo}
-                alt={`${partner.name} logo`}
-                width={140}
-                height={70}
-                className="object-contain"
-                data-ai-hint={partner.aiHint}
-              />
-            </div>
-          ))}
+        <div className="relative w-full overflow-hidden">
+          <div className="flex w-max animate-scroll-horizontal hover:[animation-play-state:paused]">
+            {allPartners.map((partner, index) => (
+              <div key={`${partner.name}-${index}`} className="flex-shrink-0 w-52 h-24 flex items-center justify-center mx-6">
+                <Image
+                  src={partner.logo}
+                  alt={`${partner.name} logo`}
+                  width={140}
+                  height={70}
+                  className="object-contain grayscale transition duration-300 hover:grayscale-0 opacity-60 hover:opacity-100"
+                  data-ai-hint={partner.aiHint}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

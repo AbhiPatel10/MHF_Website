@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Sprout, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
+import { VolunteerForm } from '../team/volunteer-form';
 
 const navLinks = [
   { href: "/#about", label: "About Us" },
@@ -40,8 +42,13 @@ export const Header: FC = () => {
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-          <Sprout className="h-7 w-7 text-primary" />
-          <span className='font-headline tracking-tighter'>Mission Hope</span>
+          {/* <Sprout className="h-7 w-7 text-primary" />
+          <span className='font-headline tracking-tighter'>Mission Hope</span> */}
+          <div className="navbar-header order-0" style={{ flex: '0 0 auto' }}>
+            <Link className="navbar-brand" href="/">
+              <img src="/logos/logo.png" alt="logo" width={100} height={100} />
+            </Link>
+          </div>
         </Link>
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
@@ -51,6 +58,14 @@ export const Header: FC = () => {
               </Link>
             </Button>
           ))}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="ml-2 rounded-full">Apply as Volunteer</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <VolunteerForm />
+            </DialogContent>
+          </Dialog>
           <Button asChild className="ml-4 rounded-full shadow-lg shadow-primary/30 transform transition-transform hover:scale-105">
             <Link href="/donate">Donate</Link>
           </Button>
@@ -66,7 +81,7 @@ export const Header: FC = () => {
             <SheetContent side="right" className="w-full max-w-xs bg-background">
               <div className="flex flex-col h-full">
                 <div className="flex items-center justify-between p-4 border-b">
-                   <Link href="/" className="flex items-center gap-2 font-bold text-2xl" onClick={closeMobileMenu}>
+                  <Link href="/" className="flex items-center gap-2 font-bold text-2xl" onClick={closeMobileMenu}>
                     <Sprout className="h-8 w-8 text-primary" />
                     <span className='font-headline tracking-tighter'>Mission Hope</span>
                   </Link>

@@ -70,3 +70,18 @@ body {
     @apply w-full py-20 md:py-28 lg:py-32;
   }
 }
+
+@layer utilities {
+  @keyframes scroll-horizontal {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll-horizontal {
+    animation: scroll-horizontal 40s linear infinite;
+  }
+}
