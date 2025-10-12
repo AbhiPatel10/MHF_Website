@@ -104,7 +104,7 @@ export default function GalleryPage() {
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4 text-center">
                         <Camera className="w-8 h-8 text-white mb-2" />
                         <p className="text-white font-semibold">
-                          {image.altText}
+                          {image.imageDescription}
                         </p>
                       </div>
                     </CardContent>

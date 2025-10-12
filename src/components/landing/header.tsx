@@ -9,6 +9,7 @@ import { Menu, Sprout, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import { VolunteerForm } from '../team/volunteer-form';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
   { href: "/#about", label: "About Us" },
@@ -22,6 +23,7 @@ const navLinks = [
 export const Header: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,13 +53,15 @@ export const Header: FC = () => {
           </div>
         </Link>
         <nav className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
-            <Button key={link.href} variant="ghost" asChild>
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return(
+            <Button key={link.href} variant={isActive ? "default" : "ghost"} asChild>
               <Link href={link.href} className="text-sm font-medium">
                 {link.label}
               </Link>
             </Button>
-          ))}
+          )})}
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="outline" className="ml-2 rounded-full">Apply as Volunteer</Button>
