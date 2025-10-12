@@ -4,14 +4,14 @@
 import { useEffect, useState } from 'react';
 import { Header } from '@/components/landing/header';
 import { Footer } from '@/components/landing/footer';
-import { galleryImages, awardsData } from '@/data/gallery';
 import Image from 'next/image';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Camera, Calendar } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Camera } from 'lucide-react';
 import { ImageLightbox } from '@/components/gallery/image-lightbox';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { GalleryImage, getAllGalleryImagesApi } from '@/services/galleryService';
+import { ImageCardSkeleton } from '../skeletons/image-card-skeleton';
 
 export default function GalleryPage() {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function GalleryPage() {
   const [offset, setOffset] = useState(0);
   const [limit] = useState(8);
   const [totalCount, setTotalCount] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchGalleryImages = async () => {
     try {
@@ -73,7 +73,15 @@ export default function GalleryPage() {
 
           {/* Gallery Section */}
           <div className="mt-20">
-            {galleryImages.length === 0 && !loading ? (
+            {loading && galleryImages.length === 0 ? (
+              // 🔹 Initial skeleton grid
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {Array.from({ length: limit }).map((_, index) => (
+                  <ImageCardSkeleton key={`skeleton-${index}`} />
+                ))}
+              </div>
+            ) : galleryImages.length === 0 ? (
+              // 🔹 No images found
               <p className="text-center text-muted-foreground">
                 No images found.
               </p>

@@ -68,13 +68,13 @@ export default function TeamPage() {
     fetchMembers();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-dvh">
-        <Loader2 className="animate-spin h-10 w-10 text-primary" />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex items-center justify-center min-h-dvh">
+  //       <Loader2 className="animate-spin h-10 w-10 text-primary" />
+  //     </div>
+  //   );
+  // }
   // Helper function to render skeletons
   const renderSkeletons = (count: number) => {
     return Array.from({ length: count }).map((_, idx) => (

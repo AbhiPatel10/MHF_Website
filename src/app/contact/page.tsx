@@ -33,8 +33,7 @@ export default function ContactPage() {
                     </h3>
                     <p className="text-muted-foreground text-lg">
                         Mission Hope Foundation, <br/>
-                        123 Charity Lane, Hope City, <br/>
-                        Delhi NCR, India - 110001
+                        Ahmedabad
                     </p>
                  </Card>
                  <Card className="p-8 shadow-lg border-l-4 border-primary">
@@ -43,7 +42,7 @@ export default function ContactPage() {
                         Email Us
                     </h3>
                     <p className="text-muted-foreground text-lg">
-                        info@missionhope.org
+                        missionhope07@gmail.com
                     </p>
                  </Card>
                  <Card className="p-8 shadow-lg border-l-4 border-primary">
@@ -52,7 +51,7 @@ export default function ContactPage() {
                         Call Us
                     </h3>
                     <p className="text-muted-foreground text-lg">
-                        +91 98765 43210
+                        +91 70464 78909
                     </p>
                  </Card>
               </div>
