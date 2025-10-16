@@ -26,34 +26,34 @@ export default function ContactPage() {
                 <ContactForm />
               </div>
               <div className="space-y-8">
-                 <Card className="p-8 shadow-lg border-l-4 border-primary">
-                    <h3 className="text-2xl font-bold font-headline mb-4 flex items-center gap-3">
-                        <MapPin className="w-7 h-7 text-primary" />
-                        Our Address
-                    </h3>
-                    <p className="text-muted-foreground text-lg">
-                        Mission Hope Foundation, <br/>
-                        Ahmedabad
-                    </p>
-                 </Card>
-                 <Card className="p-8 shadow-lg border-l-4 border-primary">
-                    <h3 className="text-2xl font-bold font-headline mb-4 flex items-center gap-3">
-                        <Mail className="w-7 h-7 text-primary" />
-                        Email Us
-                    </h3>
-                    <p className="text-muted-foreground text-lg">
-                        missionhope07@gmail.com
-                    </p>
-                 </Card>
-                 <Card className="p-8 shadow-lg border-l-4 border-primary">
-                    <h3 className="text-2xl font-bold font-headline mb-4 flex items-center gap-3">
-                        <Phone className="w-7 h-7 text-primary" />
-                        Call Us
-                    </h3>
-                    <p className="text-muted-foreground text-lg">
-                        +91 70464 78909
-                    </p>
-                 </Card>
+                <Card className="p-8 shadow-lg border-l-4 border-primary">
+                  <h3 className="text-2xl font-bold font-headline mb-4 flex items-center gap-3">
+                    <MapPin className="w-7 h-7 text-primary" />
+                    Our Address
+                  </h3>
+                  <p className="text-muted-foreground text-lg">
+                    Mission Hope Foundation, <br />
+                    Gandhinagar, Gujarat, India
+                  </p>
+                </Card>
+                <Card className="p-8 shadow-lg border-l-4 border-primary">
+                  <h3 className="text-2xl font-bold font-headline mb-4 flex items-center gap-3">
+                    <Mail className="w-7 h-7 text-primary" />
+                    Email Us
+                  </h3>
+                  <p className="text-muted-foreground text-lg">
+                    missionhope07@gmail.com
+                  </p>
+                </Card>
+                <Card className="p-8 shadow-lg border-l-4 border-primary">
+                  <h3 className="text-2xl font-bold font-headline mb-4 flex items-center gap-3">
+                    <Phone className="w-7 h-7 text-primary" />
+                    Call Us
+                  </h3>
+                  <p className="text-muted-foreground text-lg">
+                    +91 70464 78909
+                  </p>
+                </Card>
               </div>
             </div>
           </div>

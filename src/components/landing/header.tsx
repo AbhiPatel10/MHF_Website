@@ -55,13 +55,14 @@ export const Header: FC = () => {
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
-            return(
-            <Button key={link.href} variant={isActive ? "default" : "ghost"} asChild>
-              <Link href={link.href} className="text-sm font-medium">
-                {link.label}
-              </Link>
-            </Button>
-          )})}
+            return (
+              <Button key={link.href} variant={isActive ? "default" : "ghost"} asChild>
+                <Link href={link.href} className="text-sm font-medium">
+                  {link.label}
+                </Link>
+              </Button>
+            )
+          })}
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="outline" className="ml-2 rounded-full">Apply as Volunteer</Button>
