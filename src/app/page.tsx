@@ -13,6 +13,7 @@ import { President } from '@/components/landing/president';
 import { Blogs } from '@/components/landing/blogs';
 import { Highlights } from '@/components/landing/highlights';
 import { Hero2 } from '@/components/landing/hero2';
+import { Hero3 } from '@/components/landing/hero3';
 
 export default function LandingPage() {
   return (
