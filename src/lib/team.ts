@@ -108,3 +108,31 @@ export const teamData = [
     }
   },
 ];
+
+export const president = {
+  name: "Hardiksinh Chudasama",
+  role: "Founder & Director",
+  district: "Ahmedabad",
+  image: "/Images/Hardik.jpg",
+  aiHint: "indian man portrait",
+  description:
+    "Hardiksinh Chudasama is the Founder and President of Mission Hope Foundation, a youth-led organization committed to bringing positive change to society. With a strong vision for social transformation, he has been actively involved in initiatives that promote education, healthcare, environmental awareness, and community development. His leadership reflects a deep sense of responsibility toward empowering people and building sustainable solutions for social welfare. Through Mission Hope Foundation, Hardiksinh aims to inspire collective action and spread hope among those in need. He believes that meaningful change begins when compassion turns into action.",
+  social: {
+    twitter: "#",
+    linkedin: "#",
+  },
+};
+
+export const vicePresident = {
+  name: "Yashwant Ahir",
+  role: "Vice President",
+  district: "Delhi",
+  image: "/Images/Yashwant.jpg",
+  aiHint: "indian man portrait",
+  description:
+    "As Vice President of Mission Hope Foundation, Yashvant Singh is a driving force behind the organization’s mission to create positive social change. He is deeply committed to initiatives in education, health, environment, and community development. With a hands-on approach and a passion for empowering youth, Yashvant inspires action, fosters hope, and works tirelessly to make a meaningful difference in society.",
+  social: {
+    twitter: "#",
+    linkedin: "#",
+  },
+};

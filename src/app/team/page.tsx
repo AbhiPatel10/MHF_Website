@@ -13,36 +13,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { VolunteerForm } from "@/components/team/volunteer-form";
+import { president, vicePresident } from "@/lib/team";
 
 export default function TeamPage() {
-  const president = {
-    name: "Hardiksinh Chudasama",
-    role: "Founder & Director",
-    district: "Ahmedabad",
-    image: "/Images/Hardik.jpeg",
-    aiHint: "indian man portrait",
-    description:
-      "Hardiksinh Chudasama is a dynamic leader committed to spreading happiness and bringing positive change to society. With a strong background in social service, professional expertise as a Project Manager in an IT company, and a passion for writing, public speaking, and anchoring, he has dedicated his life to empowering communities. His journey is a testament to how one individual can inspire many to make a difference.",
-    social: {
-      twitter: "#",
-      linkedin: "#",
-    },
-  };
-
-  const vicePresident = {
-    name: "Yashwant Ahir",
-    role: "Vice President",
-    district: "Delhi",
-    image: "/Images/Yashwant.jpeg",
-    aiHint: "indian man portrait",
-    description:
-      "Yashwant Ahir is a dedicated professional with a strong background in community service. As Vice President, he focuses on enhancing organizational effectiveness and fostering collaboration among team members.",
-    social: {
-      twitter: "#",
-      linkedin: "#",
-    },
-  };
-
   const [assets, setAssets] = useState<TGetAllTeamMembers[]>([]);
   const [keyMembers, setKeyMembers] = useState<TGetAllTeamMembers[]>([]);
   const [loading, setLoading] = useState(true);
@@ -187,25 +160,25 @@ export default function TeamPage() {
               {loading
                 ? renderSkeletons(5)
                 : assets.map((member) => (
-                    <div
-                      key={member.name}
-                      className="text-center flex flex-col items-center"
-                    >
-                      <Avatar className="w-32 h-32 mb-4 border-4 border-primary/20 shadow-lg">
-                        <AvatarImage
-                          src={member.image?.url}
-                          alt={member.name}
-                        />
-                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <h3 className="font-headline text-xl font-semibold">
-                        {member.name}
-                      </h3>
-                      <p className="text-sm text-primary font-medium">
-                        {member.role}
-                      </p>
-                    </div>
-                  ))}
+                  <div
+                    key={member.name}
+                    className="text-center flex flex-col items-center"
+                  >
+                    <Avatar className="w-32 h-32 mb-4 border-4 border-primary/20 shadow-lg">
+                      <AvatarImage
+                        src={member.image?.url}
+                        alt={member.name}
+                      />
+                      <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <h3 className="font-headline text-xl font-semibold">
+                      {member.name}
+                    </h3>
+                    <p className="text-sm text-primary font-medium">
+                      {member.role}
+                    </p>
+                  </div>
+                ))}
             </div>
           </div>
 
@@ -223,46 +196,46 @@ export default function TeamPage() {
               {loading
                 ? renderSkeletons(5)
                 : keyMembers.map((member) => (
-                    <div
-                      key={member.name}
-                      className="text-center flex flex-col items-center"
-                    >
-                      <Avatar className="w-32 h-32 mb-4 border-4 border-primary/20 shadow-lg">
-                        <AvatarImage
-                          src={member.image?.url}
-                          alt={member.name}
-                        />
-                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <h3 className="font-headline text-xl font-semibold">
-                        {member.name}
-                      </h3>
-                      <p className="text-sm text-primary font-medium">
-                        {member.role}
-                      </p>
-                    </div>
-                  ))}
+                  <div
+                    key={member.name}
+                    className="text-center flex flex-col items-center"
+                  >
+                    <Avatar className="w-32 h-32 mb-4 border-4 border-primary/20 shadow-lg">
+                      <AvatarImage
+                        src={member.image?.url}
+                        alt={member.name}
+                      />
+                      <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <h3 className="font-headline text-xl font-semibold">
+                      {member.name}
+                    </h3>
+                    <p className="text-sm text-primary font-medium">
+                      {member.role}
+                    </p>
+                  </div>
+                ))}
             </div>
           </div>
 
           <div className="mt-24 text-center">
             <div className="max-w-3xl mx-auto p-8 rounded-3xl bg-secondary/30">
-                 <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl font-headline">
-                    Become a Volunteer
-                </h2>
-                <p className="mt-4 text-lg text-muted-foreground">
-                    Join our team and make a difference. We are always looking for passionate individuals to help us in our mission.
-                </p>
-                <Dialog>
-                    <DialogTrigger asChild>
-                         <Button size="lg" className="mt-8 rounded-full px-10 py-7 text-lg group">
-                            Apply Now <MoveRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <VolunteerForm />
-                    </DialogContent>
-                </Dialog>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl font-headline">
+                Become a Volunteer
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Join our team and make a difference. We are always looking for passionate individuals to help us in our mission.
+              </p>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="lg" className="mt-8 rounded-full px-10 py-7 text-lg group">
+                    Apply Now <MoveRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <VolunteerForm />
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
 

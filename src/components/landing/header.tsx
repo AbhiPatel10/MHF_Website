@@ -12,7 +12,9 @@ import { VolunteerForm } from "../team/volunteer-form";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { href: "/#about", label: "About Us" },
+  { href: "/", label: "Home" },
+  { href: "/aboutUs", label: "About Us" },
+  { href: "/projects", label: "Projects" },
   { href: "/events", label: "Events" },
   { href: "/blogs", label: "Blogs" },
   { href: "/gallery", label: "Gallery" },
