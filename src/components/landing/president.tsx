@@ -27,7 +27,7 @@ export const President: FC = () => {
               A Leader By Vision, A Social Worker By Heart, And A Change Maker By Action.
             </h3>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Hardiksinh Chudasama is a dynamic leader committed to spreading happiness and bringing positive change to society. With a strong background in social service, professional expertise as a Project Manager in an IT company, and a passion for writing, public speaking, and anchoring, he has dedicated his life to empowering communities. His journey is a testament to how one individual can inspire many to make a difference.
+              Hardiksinh Chudasama is the Founder and President of Mission Hope Foundation, a youth-led organization committed to bringing positive change to society. With a strong vision for social transformation, he has been actively involved in initiatives that promote education, healthcare, environmental awareness, and community development. His leadership reflects a deep sense of responsibility toward empowering people and building sustainable solutions for social welfare. Through Mission Hope Foundation, Hardiksinh aims to inspire collective action and spread hope among those in need. He believes that meaningful change begins when compassion turns into action.
             </p>
             <div>
               <h4 className="font-headline text-xl font-bold text-foreground mb-2">President Message:</h4>

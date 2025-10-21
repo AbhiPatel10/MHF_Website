@@ -1,13 +1,17 @@
-
 import type { FC } from 'react';
 import Image from 'next/image';
 
 const partners = [
-  { name: 'Global Fund', logo: 'https://missionhopefoundation.in/imgs/partners/BOB.png', aiHint: 'company logo' },
-  { name: 'Charity Foundation', logo: 'https://missionhopefoundation.in/imgs/partners/RAATech.png', aiHint: 'company logo' },
-  { name: 'Community Trust', logo: 'https://missionhopefoundation.in/imgs/partners/VibePositivity.png', aiHint: 'company logo' },
-  { name: 'United Support', logo: 'https://missionhopefoundation.in/imgs/partners/Ryuva.png', aiHint: 'company logo' },
-  { name: 'Hope Givers', logo: 'https://missionhopefoundation.in/imgs/partners/TheOneTechnologies.png', aiHint: 'company logo' },
+  { name: 'Bank Of Baroda', logo: '/Images/Partners/BOB.png', aiHint: 'Bank Of Baroda' },
+  { name: 'RAATech', logo: '/Images/Partners/RAATech.png', aiHint: 'RAATech' },
+  { name: 'Vibe Positivity', logo: '/Images/Partners/VibePositivity.png', aiHint: 'Vibe Positivity' },
+  { name: 'Ryuva', logo: '/Images/Partners/Ryuva.png', aiHint: 'Ryuva' },
+  { name: 'The One Technologies', logo: '/Images/Partners/TheOneTechnologies.png', aiHint: 'The One Technologies' },
+  { name: 'Indian Red Cross Society', logo: '/Images/Partners/IndianRedCrossSociety.png', aiHint: 'Indian Red Cross Society' },
+  { name: 'KSV', logo: '/Images/Partners/KSV.png', aiHint: 'KSV' },
+  { name: 'LeaderShip', logo: '/Images/Partners/LeaderShip.png', aiHint: 'LeaderShip' },
+  { name: 'Swastik Engineering', logo: '/Images/Partners/SwastikEngineeringBG.png', aiHint: 'Swastik Engineering' },
+  { name: 'vLPO', logo: '/Images/Partners/vLPO.png', aiHint: 'vLPO' },
 ];
 
 const allPartners = [...partners, ...partners];
@@ -24,15 +28,20 @@ export const Partners: FC = () => {
         <div className="relative w-full overflow-hidden">
           <div className="flex w-max animate-scroll-horizontal hover:[animation-play-state:paused]">
             {allPartners.map((partner, index) => (
-              <div key={`${partner.name}-${index}`} className="flex-shrink-0 w-52 h-24 flex items-center justify-center mx-6">
-                <Image
-                  src={partner.logo}
-                  alt={`${partner.name} logo`}
-                  width={140}
-                  height={70}
-                  className="object-contain grayscale transition duration-300 hover:grayscale-0 opacity-60 hover:opacity-100"
-                  data-ai-hint={partner.aiHint}
-                />
+              <div
+                key={`${partner.name}-${index}`}
+                className="flex-shrink-0 flex items-center justify-center mx-6"
+                style={{ width: '180px', height: '100px' }}
+              >
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <Image
+                    src={partner.logo}
+                    alt={`${partner.name} logo`}
+                    fill
+                    className="object-contain grayscale transition duration-300 hover:grayscale-0 opacity-60 hover:opacity-100"
+                    data-ai-hint={partner.aiHint}
+                  />
+                </div>
               </div>
             ))}
           </div>

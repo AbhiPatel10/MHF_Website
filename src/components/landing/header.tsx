@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { VolunteerForm } from "../team/volunteer-form";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -25,13 +26,24 @@ const navLinks = [
 export const Header: FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const openVolunteer = searchParams.get("volunteer") === "true";
+
+    if (openVolunteer) {
+      setIsVolunteerModalOpen(true);
+    }
+  }, [pathname]);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
@@ -79,9 +91,17 @@ export const Header: FC = () => {
             );
           })}
 
-          <Dialog>
+          <Dialog open={isVolunteerModalOpen} onOpenChange={(open) => {
+            setIsVolunteerModalOpen(open);
+            if (!open) {
+              window.history.replaceState({}, "", "/"); // remove ?volunteer=true
+            }
+          }}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="ml-2 rounded-full">
+              <Button
+                variant="outline"
+                className="ml-2 rounded-full"
+              >
                 Join us as Volunteer
               </Button>
             </DialogTrigger>
