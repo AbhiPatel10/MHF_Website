@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { VolunteerForm } from "../team/volunteer-form";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -28,7 +27,6 @@ export const Header: FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
