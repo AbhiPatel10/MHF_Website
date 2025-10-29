@@ -10,8 +10,11 @@ import { Badge } from '@/components/ui/badge';
 import { projectsData } from '@/lib/projects';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { VolunteerForm } from '@/components/team/volunteer-form';
+import { useState } from 'react';
 
 export default function ProjectsPage() {
+    const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
+
     return (
         <div className="flex flex-col min-h-dvh bg-background">
             <Header />
@@ -50,14 +53,14 @@ export default function ProjectsPage() {
                                         </h3>
                                         <div className="prose prose-lg text-muted-foreground leading-relaxed" dangerouslySetInnerHTML={{ __html: project.longDescription }} />
                                         <div className="mt-8 flex gap-4">
-                                            <Dialog>
+                                            <Dialog open={isVolunteerModalOpen} onOpenChange={setIsVolunteerModalOpen}>
                                                 <DialogTrigger asChild>
                                                     <Button variant="outline">
                                                         Apply as Volunteer
                                                     </Button>
                                                 </DialogTrigger>
                                                 <DialogContent>
-                                                    <VolunteerForm />
+                                                    <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
                                                 </DialogContent>
                                             </Dialog>
                                             <Button asChild>

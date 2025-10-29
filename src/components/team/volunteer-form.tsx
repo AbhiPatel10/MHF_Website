@@ -27,7 +27,7 @@ const volunteerSchema = z.object({
     message: z.string().optional(),
 })
 
-export function VolunteerForm() {
+export function VolunteerForm({ onSuccess }: { onSuccess: () => void }) {
     const { toast } = useToast();
 
     const form = useForm<z.infer<typeof volunteerSchema>>({
@@ -65,6 +65,7 @@ export function VolunteerForm() {
                     variant: "destructive",
                 });
             }
+            onSuccess()
         } catch (error: any) {
             console.error("Error submitting volunteer form:", error);
             toast({

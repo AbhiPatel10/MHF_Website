@@ -104,7 +104,7 @@ export const Header: FC = () => {
               </Button>
             </DialogTrigger>
             <DialogContent>
-              <VolunteerForm />
+              <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
             </DialogContent>
           </Dialog>
 

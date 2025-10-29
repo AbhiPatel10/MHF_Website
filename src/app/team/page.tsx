@@ -4,7 +4,7 @@ import { Header } from "@/components/landing/header";
 import { Footer } from "@/components/landing/footer";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Loader2, MoveRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { TGetAllTeamMembers } from "@/utils/types/teamMember.types";
@@ -18,6 +18,7 @@ import { president, vicePresident } from "@/lib/team";
 export default function TeamPage() {
   const [assets, setAssets] = useState<TGetAllTeamMembers[]>([]);
   const [keyMembers, setKeyMembers] = useState<TGetAllTeamMembers[]>([]);
+  const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const fetchMembers = async () => {
@@ -226,14 +227,14 @@ export default function TeamPage() {
               <p className="mt-4 text-lg text-muted-foreground">
                 Join our team and make a difference. We are always looking for passionate individuals to help us in our mission.
               </p>
-              <Dialog>
+              <Dialog open={isVolunteerModalOpen} onOpenChange={setIsVolunteerModalOpen}>
                 <DialogTrigger asChild>
                   <Button size="lg" className="mt-8 rounded-full px-10 py-7 text-lg group">
                     Apply Now <MoveRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
-                  <VolunteerForm />
+                  <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
                 </DialogContent>
               </Dialog>
             </div>
