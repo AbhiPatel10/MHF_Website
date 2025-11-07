@@ -15,11 +15,14 @@ export default function ProjectsPage() {
     const [selectedProject, setSelectedProject] = useState<null | (typeof projectsData)[0]>(null);
 
     const truncateHTML = (html: string, maxLength: number) => {
+        if (typeof window === "undefined") return html; // SSR safety
+
         const tempEl = document.createElement("div");
         tempEl.innerHTML = html;
         const text = tempEl.textContent || tempEl.innerText || "";
         return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
     };
+
 
     return (
         <div className="flex flex-col min-h-dvh bg-background">
