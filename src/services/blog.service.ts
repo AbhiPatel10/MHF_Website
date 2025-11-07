@@ -12,7 +12,9 @@ export interface TBlog {
     isDelete: boolean
     createdAt: string
     updatedAt: string,
+    author: string,
     image: image,
+    authorImage: image,
     createdBy: adminUser,
     __v: number
 }

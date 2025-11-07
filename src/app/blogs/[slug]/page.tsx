@@ -49,6 +49,9 @@ export default function BlogDetailsPage() {
     notFound();
   }
 
+  const authorName = blog.author || blog.createdBy?.name || "Admin";
+  const authorImage = blog.authorImage?.url || "/default-avatar.png";
+
   return (
     <div className="flex flex-col min-h-dvh bg-background">
       <Header />
@@ -65,11 +68,11 @@ export default function BlogDetailsPage() {
               <div className="mt-8 flex justify-center items-center gap-8 text-muted-foreground">
                 <div className="flex items-center gap-3">
                   <Avatar className="h-12 w-12 border-2 border-primary/50">
-                    <AvatarImage src="/default-avatar.png" alt={blog.createdBy?.name} />
-                    <AvatarFallback>A</AvatarFallback>
+                    <AvatarImage src={authorImage} alt={authorName} />
+                    <AvatarFallback>{authorName.charAt(0).toUpperCase()}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-semibold text-foreground">{blog.createdBy?.name}</p>
+                    <p className="font-semibold text-foreground">{authorName}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

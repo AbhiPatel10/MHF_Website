@@ -53,72 +53,77 @@ export const Blogs: FC = () => {
           {loading ? (
             Array.from({ length: 3 }).map((_, i) => <BlogCardSkeleton key={i} />)
           ) : (
-            blogs.map((blog) => (
-              <Card
-                key={blog._id}
-                className="overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col border shadow-lg"
-              >
-                {/* Blog Image */}
-                <div className="relative aspect-video overflow-hidden">
-                  <Image
-                    src={blog.image?.url || "/blog/placeholder.webp"}
-                    alt={blog.image?.altText || blog.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  {blog.category?.name && (
-                    <Badge variant="secondary" className="absolute top-4 right-4">
-                      {blog.category.name}
-                    </Badge>
-                  )}
-                </div>
+            blogs.map((blog) => {
+              const authorName = blog.author || blog.createdBy?.name || "Admin";
+              const authorImage = blog.authorImage?.url || "/default-avatar.png";
 
-                {/* Blog Content */}
-                <CardContent className="p-8 flex-grow">
-                  <h3 className="text-2xl font-bold font-headline mb-4">{blog.title}</h3>
-                  <div className="flex items-center text-sm text-muted-foreground gap-6 mb-4">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      <span>
-                        {new Date(blog.createdAt).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </span>
-                    </div>
+              return (
+                <Card
+                  key={blog._id}
+                  className="overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 flex flex-col border shadow-lg"
+                >
+                  {/* Blog Image */}
+                  <div className="relative aspect-video overflow-hidden">
+                    <Image
+                      src={blog.image?.url || "/blog/placeholder.webp"}
+                      alt={blog.image?.altText || blog.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    {blog.category?.name && (
+                      <Badge variant="secondary" className="absolute top-4 right-4">
+                        {blog.category.name}
+                      </Badge>
+                    )}
                   </div>
-                  <div
-                    className="text-muted-foreground line-clamp-3 prose prose-sm"
-                    dangerouslySetInnerHTML={{
-                      __html: renderEditorHTML(blog.content, 180),
-                    }}
-                  />
-                </CardContent>
 
-                {/* Author + Read More */}
-                <CardFooter className="p-8 pt-0 flex justify-between items-center">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-10 w-10 border-2 border-primary/50">
-                      <AvatarImage src="/default-avatar.png" alt={blog.createdBy?.name} />
-                      <AvatarFallback>
-                        {blog.createdBy?.name?.charAt(0) || "A"}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-semibold text-foreground text-sm">
-                        {blog.createdBy?.name || "Admin"}
-                      </p>
+                  {/* Blog Content */}
+                  <CardContent className="p-8 flex-grow">
+                    <h3 className="text-2xl font-bold font-headline mb-4">{blog.title}</h3>
+                    <div className="flex items-center text-sm text-muted-foreground gap-6 mb-4">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        <span>
+                          {new Date(blog.createdAt).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <Button variant="link" asChild className="p-0 h-auto text-primary font-semibold">
-                    <Link href={`/blogs/${blog._id}`}>
-                      Read More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))
+                    <div
+                      className="text-muted-foreground line-clamp-3 prose prose-sm"
+                      dangerouslySetInnerHTML={{
+                        __html: renderEditorHTML(blog.content, 180),
+                      }}
+                    />
+                  </CardContent>
+
+                  {/* Author + Read More */}
+                  <CardFooter className="p-8 pt-0 flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10 border-2 border-primary/50">
+                        <AvatarImage src={authorImage} alt={authorName} />
+                        <AvatarFallback>
+                          {authorName.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-semibold text-foreground text-sm">
+                          {authorName}
+                        </p>
+                      </div>
+                    </div>
+                    <Button variant="link" asChild className="p-0 h-auto text-primary font-semibold">
+                      <Link href={`/blogs/${blog._id}`}>
+                        Read More <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              )
+            })
           )}
         </div>
 
