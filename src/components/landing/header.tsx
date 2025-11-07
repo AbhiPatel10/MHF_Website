@@ -112,7 +112,7 @@ export const Header: FC = () => {
             asChild
             className="ml-4 rounded-full shadow-lg shadow-primary/30 transition-transform hover:scale-105"
           >
-            <Link href="/donate">Donate</Link>
+            <Link href="/donation">Donate</Link>
           </Button>
         </nav>
 
@@ -167,7 +167,7 @@ export const Header: FC = () => {
                     size="lg"
                     className="w-full rounded-full shadow-lg shadow-primary/20"
                   >
-                    <Link href="/donate" onClick={closeMobileMenu}>
+                    <Link href="/donation" onClick={closeMobileMenu}>
                       Donate
                     </Link>
                   </Button>

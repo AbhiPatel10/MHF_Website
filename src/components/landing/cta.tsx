@@ -20,10 +20,10 @@ export const Cta: FC = () => {
             </p>
             <div className="mt-12">
               <Button size="lg" className="w-full sm:w-auto text-lg px-10 py-7 transform transition-transform duration-300 hover:scale-105 rounded-full bg-background text-primary hover:bg-white/90 group font-bold shadow-lg">
-                  <Link href="/donate" className='flex items-center'>
-                    Donate Now
-                    <MoveRight className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
-                  </Link>
+                <Link href="/donation" className='flex items-center'>
+                  Donate Now
+                  <MoveRight className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
               </Button>
             </div>
           </div>
