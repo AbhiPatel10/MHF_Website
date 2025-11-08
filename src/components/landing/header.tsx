@@ -103,7 +103,7 @@ export const Header: FC = () => {
                 Join us as Volunteer
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-3xl w-full">
               <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
             </DialogContent>
           </Dialog>

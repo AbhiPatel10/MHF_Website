@@ -8,6 +8,9 @@ export interface VolunteerApplication {
     fullName: string;
     email: string;
     phone: string;
+    whatsapp: string;
+    address: string;
+    bloodGroup?: string;
     reason?: string;
     isActive?: boolean;
     isDelete?: boolean;

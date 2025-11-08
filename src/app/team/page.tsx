@@ -233,7 +233,7 @@ export default function TeamPage() {
                     Apply Now <MoveRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="max-w-3xl w-full">
                   <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
                 </DialogContent>
               </Dialog>
