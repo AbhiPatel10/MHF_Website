@@ -16,7 +16,7 @@ export const getAllTeamMembersApi = async (
 ): Promise<ApiResponse<{ teamMembers: TGetAllTeamMembers[]; totalCount: number }>> => {
     const { data } = await axiosInstance.get<
         ApiResponse<{ teamMembers: TGetAllTeamMembers[]; totalCount: number }>
-    >("/admin/team/getAllTeamMembers", {
+    >("/v1/team/getAllTeamMembers", {
         params: { offset, limit, search, memberType },
     });
     return data;
