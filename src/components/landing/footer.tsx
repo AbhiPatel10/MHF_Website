@@ -97,7 +97,7 @@ export const Footer: FC = () => {
                     <div className="lg:col-span-2">
                         <h4 className="font-semibold font-headline text-lg text-foreground">Quick Links</h4>
                         <ul className="mt-4 space-y-3">
-                            <li><Link href="/#about" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
+                            <li><Link href="/aboutUs" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
                             <li><Link href="/events" className="text-muted-foreground hover:text-primary transition-colors">Events</Link></li>
                             <li><Link href="/blogs" className="text-muted-foreground hover:text-primary transition-colors">Blogs</Link></li>
                             <li><Link href="/gallery" className="text-muted-foreground hover:text-primary transition-colors">Gallery</Link></li>
@@ -109,7 +109,7 @@ export const Footer: FC = () => {
                     <div className="lg:col-span-2">
                         <h4 className="font-semibold font-headline text-lg text-foreground">Get Involved</h4>
                         <ul className="mt-4 space-y-3">
-                            <li><Link href="/team" className="text-muted-foreground hover:text-primary transition-colors">Volunteer</Link></li>
+                            <li><Link href="/team" className="text-muted-foreground hover:text-primary transition-colors">Our Team</Link></li>
                             <li><Link href="/donation" className="text-muted-foreground hover:text-primary transition-colors">Donate</Link></li>
                             <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
                         </ul>

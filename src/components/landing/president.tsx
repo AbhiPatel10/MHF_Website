@@ -13,7 +13,7 @@ export const President: FC = () => {
           </h2>
         </div>
         <div className="grid md:grid-cols-2 gap-12 lg:gap-24 items-center">
-          <div className="relative aspect-[4/5] max-w-md mx-auto md:max-w-none md:mx-0">
+          <div className="relative w-full aspect-[4/5] max-w-xs mx-auto md:max-w-none md:mx-0">
             <Image
               src="/Images/Hardik.jpg"
               alt="Hardiksinh Chudasama"
