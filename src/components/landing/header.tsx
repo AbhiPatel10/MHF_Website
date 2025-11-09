@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Sprout, X } from "lucide-react";
+import { Menu, Sprout } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { VolunteerForm } from "../team/volunteer-form";
@@ -55,7 +55,7 @@ export const Header: FC = () => {
       )}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
-        {/* ✅ Fixed Logo (no layout shift) */}
+        {/* ✅ Logo */}
         <Link
           href="/"
           className="flex items-center gap-2 font-bold text-xl select-none"
@@ -72,7 +72,7 @@ export const Header: FC = () => {
           </div>
         </Link>
 
-        {/* Desktop Nav */}
+        {/* ✅ Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
@@ -89,21 +89,32 @@ export const Header: FC = () => {
             );
           })}
 
-          <Dialog open={isVolunteerModalOpen} onOpenChange={(open) => {
-            setIsVolunteerModalOpen(open);
-            if (!open) {
-              window.history.replaceState({}, "", "/"); // remove ?volunteer=true
-            }
-          }}>
+          {/* Volunteer Dialog */}
+          <Dialog
+            open={isVolunteerModalOpen}
+            onOpenChange={(open) => {
+              setIsVolunteerModalOpen(open);
+              if (!open) {
+                window.history.replaceState({}, "", "/");
+              }
+            }}
+          >
             <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="ml-2 rounded-full"
-              >
+              <Button variant="outline" className="ml-2 rounded-full">
                 Join us as Volunteer
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-3xl w-full">
+
+            <DialogContent
+              className="
+                w-full
+                max-w-full md:max-w-3xl
+                p-4 sm:p-6
+                max-h-[90vh]
+                overflow-y-auto
+                rounded-2xl
+              "
+            >
               <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
             </DialogContent>
           </Dialog>
@@ -116,7 +127,7 @@ export const Header: FC = () => {
           </Button>
         </nav>
 
-        {/* Mobile Menu */}
+        {/* ✅ Mobile Menu */}
         <div className="md:hidden">
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
@@ -125,12 +136,11 @@ export const Header: FC = () => {
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent
-              side="right"
-              className="w-full max-w-xs bg-background"
-            >
+
+            <SheetContent side="right" className="w-full max-w-xs bg-background">
               <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between p-4 border-b">
+                {/* ✅ Header without duplicate close button */}
+                <div className="flex items-center justify-start p-4 border-b">
                   <Link
                     href="/"
                     className="flex items-center gap-2 font-bold text-2xl"
@@ -141,13 +151,9 @@ export const Header: FC = () => {
                       Mission Hope
                     </span>
                   </Link>
-                  <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="rounded-full">
-                      <X className="h-6 w-6" />
-                    </Button>
-                  </SheetTrigger>
                 </div>
 
+                {/* ✅ Nav Links */}
                 <div className="flex-grow flex flex-col gap-2 p-4">
                   {navLinks.map((link) => (
                     <Link
@@ -161,7 +167,38 @@ export const Header: FC = () => {
                   ))}
                 </div>
 
-                <div className="p-4 border-t">
+                {/* ✅ Volunteer + Donate Buttons */}
+                <div className="p-4 border-t space-y-3">
+                  <Dialog
+                    open={isVolunteerModalOpen}
+                    onOpenChange={(open) => setIsVolunteerModalOpen(open)}
+                  >
+                    <DialogTrigger asChild>
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        className="w-full rounded-full shadow-lg shadow-primary/20"
+                        onClick={closeMobileMenu}
+                      >
+                        Join as Volunteer
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent
+                      className="
+                        w-full
+                        max-w-full md:max-w-3xl
+                        p-4 sm:p-6
+                        max-h-[90vh]
+                        overflow-y-auto
+                        rounded-2xl
+                      "
+                    >
+                      <VolunteerForm
+                        onSuccess={() => setIsVolunteerModalOpen(false)}
+                      />
+                    </DialogContent>
+                  </Dialog>
+
                   <Button
                     asChild
                     size="lg"

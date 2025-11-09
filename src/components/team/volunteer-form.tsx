@@ -13,12 +13,15 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import {
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast"
 import { Textarea } from "../ui/textarea"
 import { applyAsVolunteerApi } from "@/services/volunteerApplication.service"
 
-// ✅ Schema with max character limits
 const volunteerSchema = z.object({
     fullName: z
         .string()
@@ -36,7 +39,11 @@ const volunteerSchema = z.object({
         .regex(/^\d{10}$/, { message: "WhatsApp number must be exactly 10 digits." })
         .optional()
         .or(z.literal("")),
-    bloodGroup: z.string().max(5, { message: "Blood group too long." }).optional().or(z.literal("")),
+    bloodGroup: z
+        .string()
+        .max(5, { message: "Blood group too long." })
+        .optional()
+        .or(z.literal("")),
     address: z
         .string()
         .min(5, { message: "Address must be at least 5 characters." })
@@ -89,7 +96,9 @@ export function VolunteerForm({ onSuccess }: { onSuccess: () => void }) {
             } else {
                 toast({
                     title: "❌ Submission Failed",
-                    description: response.message || "Something went wrong. Please try again later.",
+                    description:
+                        response.message ||
+                        "Something went wrong. Please try again later.",
                     duration: 4000,
                     variant: "destructive",
                 })
@@ -107,21 +116,25 @@ export function VolunteerForm({ onSuccess }: { onSuccess: () => void }) {
     }
 
     return (
-        <>
-            <DialogHeader>
-                <DialogTitle className="font-headline text-3xl">
+        <div className="flex flex-col h-[80vh] sm:h-[85vh]">
+            {/* Fixed Header */}
+            <DialogHeader className="shrink-0 border-b pb-4">
+                <DialogTitle className="font-headline text-2xl sm:text-3xl">
                     Volunteer Application
                 </DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="text-sm sm:text-base">
                     Fill out the form below to apply to become a volunteer.
                 </DialogDescription>
             </DialogHeader>
 
-            <div className="pt-6 flex justify-center">
-                <div className="w-full max-w-3xl">
+            {/* Scrollable Form Section */}
+            <div className="flex-1 overflow-y-auto px-4 sm:px-8 pt-6">
+                <div className="w-full max-w-3xl mx-auto">
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-6 pb-24" // extra bottom padding for button visibility
+                        >
                             {/* Row 1: Full Name & Email */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <FormField
@@ -133,11 +146,7 @@ export function VolunteerForm({ onSuccess }: { onSuccess: () => void }) {
                                                 Full Name <RequiredMark />
                                             </FormLabel>
                                             <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    maxLength={100}
-                                                    placeholder="John Doe"
-                                                />
+                                                <Input {...field} maxLength={100} placeholder="John Doe" />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -277,21 +286,25 @@ export function VolunteerForm({ onSuccess }: { onSuccess: () => void }) {
                                     </FormItem>
                                 )}
                             />
-
-                            <Button
-                                type="submit"
-                                size="lg"
-                                className="w-full text-lg py-7"
-                                disabled={form.formState.isSubmitting}
-                            >
-                                {form.formState.isSubmitting
-                                    ? "Submitting..."
-                                    : "Submit Application"}
-                            </Button>
                         </form>
                     </Form>
                 </div>
             </div>
-        </>
+
+            {/* Fixed Submit Button at Bottom */}
+            <div className="shrink-0 border-t bg-background px-4 py-4">
+                <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full text-lg py-6"
+                    disabled={form.formState.isSubmitting}
+                    onClick={form.handleSubmit(onSubmit)}
+                >
+                    {form.formState.isSubmitting
+                        ? "Submitting..."
+                        : "Submit Application"}
+                </Button>
+            </div>
+        </div>
     )
 }

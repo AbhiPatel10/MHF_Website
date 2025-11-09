@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { TGetAllTeamMembers } from "@/utils/types/teamMember.types";
 import { getAllTeamMembersApi } from "@/services/teamMemberService";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { VolunteerForm } from "@/components/team/volunteer-form";
 import { president, vicePresident } from "@/lib/team";
@@ -233,7 +233,25 @@ export default function TeamPage() {
                     Apply Now <MoveRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-3xl w-full">
+
+                <DialogHeader>
+                  <DialogTitle className="font-headline text-3xl">
+                    Volunteer Application
+                  </DialogTitle>
+                  <DialogDescription>
+                    Fill out the form below to apply to become a volunteer.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogContent
+                  className="
+          w-full               /* full width on every breakpoint */
+          max-w-full md:max-w-3xl   /* keep max-width on md+ */
+          p-4 sm:p-6           /* uniform inner padding */
+          max-h-[90vh]         /* never taller than 90% of viewport */
+          overflow-y-auto      /* scroll when content overflows */
+          flex flex-col        /* force header + body + sticky button */
+        "
+                >
                   <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
                 </DialogContent>
               </Dialog>

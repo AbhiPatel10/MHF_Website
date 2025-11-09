@@ -113,7 +113,7 @@ export default function DonatePage() {
       <main className="min-h-screen flex-1 flex items-center justify-center text-center px-6 sm:px-8 md:px-12">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground font-headline mb-4">
-            Donations Coming Soon
+            Donation Coming Soon
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
             We’re setting up our donation system to make it simple and secure
