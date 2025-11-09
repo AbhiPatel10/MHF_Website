@@ -54,7 +54,7 @@ export const Header: FC = () => {
           : "bg-transparent"
       )}
     >
-      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
+      <div className=" mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         {/* ✅ Logo */}
         <Link
           href="/"
@@ -73,7 +73,7 @@ export const Header: FC = () => {
         </Link>
 
         {/* ✅ Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden xl:flex items-center gap-1">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -88,6 +88,16 @@ export const Header: FC = () => {
               </Button>
             );
           })}
+          <a
+            href="/file/MHFBrochure.pdf"
+            download
+          // className="ml-2 rounded-full border px-4 py-2 text-sm font-medium hover:bg-secondary bg"
+          >
+            <Button variant="outline" className="ml-2 rounded-full">
+
+              Download Brochure
+            </Button>
+          </a>
 
           {/* Volunteer Dialog */}
           <Dialog
@@ -128,7 +138,7 @@ export const Header: FC = () => {
         </nav>
 
         {/* ✅ Mobile Menu */}
-        <div className="md:hidden">
+        <div className="xl:hidden">
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="rounded-full">
@@ -198,6 +208,15 @@ export const Header: FC = () => {
                       />
                     </DialogContent>
                   </Dialog>
+
+                  <a
+                    href="/file/MHFBrochure.pdf"
+                    download
+                    className="block w-full text-center rounded-full border px-4 font-sm py-3 hover:bg-secondary transition-colors shadow-lg shadow-primary/20"
+                    onClick={closeMobileMenu}
+                  >
+                    Download Brochure
+                  </a>
 
                   <Button
                     asChild

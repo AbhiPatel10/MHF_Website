@@ -1,11 +1,21 @@
 "use client";
+
+import * as React from "react";
 import type { FC } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
 import Image from "next/image";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+} from "@/components/ui/dialog";
+import { VolunteerForm } from "../team/volunteer-form";
 
 export const Hero2: FC = () => {
+  const [isVolunteerModalOpen, setIsVolunteerModalOpen] = React.useState(false);
+
   return (
     <section
       id="home"
@@ -34,6 +44,7 @@ export const Hero2: FC = () => {
           </p>
 
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+            {/* Donate Button */}
             <Button
               size="lg"
               asChild
@@ -45,20 +56,44 @@ export const Hero2: FC = () => {
               </Link>
             </Button>
 
-            <Button
-              size="lg"
-              variant="outline"
-              asChild
-              className="rounded-full px-8 sm:px-10 py-6 sm:py-7 text-base sm:text-lg font-semibold border-2 hover:bg-accent/40 backdrop-blur-sm transition-all shadow-sm"
+            {/* ✅ Replaced “Learn More” with Volunteer Modal Button */}
+            <Dialog
+              open={isVolunteerModalOpen}
+              onOpenChange={(open) => {
+                setIsVolunteerModalOpen(open);
+                if (!open) {
+                  window.history.replaceState({}, "", "/");
+                }
+              }}
             >
-              <Link href="#about">Learn More</Link>
-            </Button>
+              <DialogTrigger asChild>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="rounded-full px-8 sm:px-10 py-6 sm:py-7 text-base sm:text-lg font-semibold border-2 hover:bg-accent/40 backdrop-blur-sm transition-all shadow-sm"
+                >
+                  Join us as Volunteer
+                </Button>
+              </DialogTrigger>
+
+              <DialogContent
+                className="
+                  w-full
+                  max-w-full md:max-w-3xl
+                  p-4 sm:p-6
+                  max-h-[90vh]
+                  overflow-y-auto
+                  rounded-2xl
+                "
+              >
+                <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 
         {/* RIGHT SIDE IMAGE */}
         <div className="relative w-full h-[260px] sm:h-[320px] md:h-[520px] lg:h-[560px] max-w-md sm:max-w-lg md:max-w-xl mx-auto group">
-          {/* Soft glowing background */}
           <div className="absolute -inset-4 sm:-inset-6 bg-gradient-to-tr from-primary/30 via-pink-400/20 to-transparent blur-3xl rounded-[2.5rem] sm:rounded-[4rem] opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
           <div className="relative w-full h-full overflow-hidden rounded-[2.5rem] sm:rounded-[4rem] shadow-2xl">
             <Image
