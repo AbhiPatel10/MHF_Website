@@ -50,7 +50,7 @@ export default function BlogDetailsPage() {
   }
 
   const authorName = blog.author || blog.createdBy?.name || "Admin";
-  const authorImage = blog.authorImage?.url || "/default-avatar.png";
+  const authorImage = blog.authorImage?.url || "/Images/default-avatar-image.jpg";
 
   return (
     <div className="flex flex-col min-h-dvh bg-background">

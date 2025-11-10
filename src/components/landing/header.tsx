@@ -8,7 +8,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Sprout } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import { VolunteerForm } from "../team/volunteer-form";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
@@ -100,7 +99,7 @@ export const Header: FC = () => {
           </a>
 
           {/* Volunteer Dialog */}
-          <Dialog
+          {/* <Dialog
             open={isVolunteerModalOpen}
             onOpenChange={(open) => {
               setIsVolunteerModalOpen(open);
@@ -127,7 +126,13 @@ export const Header: FC = () => {
             >
               <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
+
+          <Button variant="outline" className="ml-2 rounded-full">
+            <Link href="/volunteer" onClick={closeMobileMenu}>
+              Join us as Volunteer
+            </Link>
+          </Button>
 
           <Button
             asChild
@@ -179,35 +184,11 @@ export const Header: FC = () => {
 
                 {/* ✅ Volunteer + Donate Buttons */}
                 <div className="p-4 border-t space-y-3">
-                  <Dialog
-                    open={isVolunteerModalOpen}
-                    onOpenChange={(open) => setIsVolunteerModalOpen(open)}
-                  >
-                    <DialogTrigger asChild>
-                      <Button
-                        size="lg"
-                        variant="outline"
-                        className="w-full rounded-full shadow-lg shadow-primary/20"
-                        onClick={closeMobileMenu}
-                      >
-                        Join as Volunteer
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent
-                      className="
-                        w-full
-                        max-w-full md:max-w-3xl
-                        p-4 sm:p-6
-                        max-h-[90vh]
-                        overflow-y-auto
-                        rounded-2xl
-                      "
-                    >
-                      <VolunteerForm
-                        onSuccess={() => setIsVolunteerModalOpen(false)}
-                      />
-                    </DialogContent>
-                  </Dialog>
+                  <Button variant="outline" className="ml-2 rounded-full">
+                    <Link href="/volunteer" onClick={closeMobileMenu}>
+                      Join us as Volunteer
+                    </Link>
+                  </Button>
 
                   <a
                     href="/file/MHFBrochure.pdf"

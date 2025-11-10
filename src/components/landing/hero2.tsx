@@ -6,12 +6,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
 import Image from "next/image";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-} from "@/components/ui/dialog";
-import { VolunteerForm } from "../team/volunteer-form";
 
 export const Hero2: FC = () => {
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = React.useState(false);
@@ -57,38 +51,11 @@ export const Hero2: FC = () => {
             </Button>
 
             {/* ✅ Replaced “Learn More” with Volunteer Modal Button */}
-            <Dialog
-              open={isVolunteerModalOpen}
-              onOpenChange={(open) => {
-                setIsVolunteerModalOpen(open);
-                if (!open) {
-                  window.history.replaceState({}, "", "/");
-                }
-              }}
-            >
-              <DialogTrigger asChild>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="rounded-full px-8 sm:px-10 py-6 sm:py-7 text-base sm:text-lg font-semibold border-2 hover:bg-accent/40 backdrop-blur-sm transition-all shadow-sm"
-                >
-                  Join us as Volunteer
-                </Button>
-              </DialogTrigger>
-
-              <DialogContent
-                className="
-                  w-full
-                  max-w-full md:max-w-3xl
-                  p-4 sm:p-6
-                  max-h-[90vh]
-                  overflow-y-auto
-                  rounded-2xl
-                "
-              >
-                <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
-              </DialogContent>
-            </Dialog>
+            <Button variant="outline" className="ml-2 rounded-full">
+              <Link href="/volunteer">
+                Join us as Volunteer
+              </Link>
+            </Button>
           </div>
         </div>
 

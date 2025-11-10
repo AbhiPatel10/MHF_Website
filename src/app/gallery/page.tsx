@@ -28,7 +28,7 @@ export default function GalleryPage() {
       setLoading(true);
       const res = await getAllGalleryImagesApi(offset, limit);
       if (res.status === 200) {
-        setGalleryImages((prev) => [...prev, ...res.data.galleryImages]);
+        setGalleryImages((prev) => res.data.galleryImages);
         setTotalCount(res.data.totalCount);
       }
     } catch (err) {

@@ -145,7 +145,7 @@ export default function AllBlogsPage() {
             ) : blogs.map((blog) => {
 
               const authorName = blog.author || blog.createdBy?.name || "Admin";
-              const authorImage = blog.authorImage?.url || "/default-avatar.png";
+              const authorImage = blog.authorImage?.url || "/Images/default-avatar-image.jpg";
               return (
                 <Card
                   key={blog._id}

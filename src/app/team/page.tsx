@@ -14,6 +14,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "@/components/ui/button";
 import { VolunteerForm } from "@/components/team/volunteer-form";
 import { president, vicePresident } from "@/lib/team";
+import Link from "next/link";
 
 export default function TeamPage() {
   const [assets, setAssets] = useState<TGetAllTeamMembers[]>([]);
@@ -227,34 +228,12 @@ export default function TeamPage() {
               <p className="mt-4 text-lg text-muted-foreground">
                 Join our team and make a difference. We are always looking for passionate individuals to help us in our mission.
               </p>
-              <Dialog open={isVolunteerModalOpen} onOpenChange={setIsVolunteerModalOpen}>
-                <DialogTrigger asChild>
-                  <Button size="lg" className="mt-8 rounded-full px-10 py-7 text-lg group">
-                    Apply Now <MoveRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </DialogTrigger>
 
-                <DialogHeader>
-                  <DialogTitle className="font-headline text-3xl">
-                    Volunteer Application
-                  </DialogTitle>
-                  <DialogDescription>
-                    Fill out the form below to apply to become a volunteer.
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogContent
-                  className="
-          w-full               /* full width on every breakpoint */
-          max-w-full md:max-w-3xl   /* keep max-width on md+ */
-          p-4 sm:p-6           /* uniform inner padding */
-          max-h-[90vh]         /* never taller than 90% of viewport */
-          overflow-y-auto      /* scroll when content overflows */
-          flex flex-col        /* force header + body + sticky button */
-        "
-                >
-                  <VolunteerForm onSuccess={() => setIsVolunteerModalOpen(false)} />
-                </DialogContent>
-              </Dialog>
+              <Button size="lg" className="mt-8 rounded-full px-10 py-7 text-lg group" asChild>
+                <Link href="/volunteer">
+                  Apply Now <MoveRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
             </div>
           </div>
 
