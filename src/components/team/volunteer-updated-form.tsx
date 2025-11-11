@@ -25,7 +25,7 @@ const volunteerSchema = z.object({
     email: z.string().email({ message: "Please enter a valid email." }),
     countryCode: z.string().min(1, { message: "Country code is required." }),
     phone: z.string().min(10, { message: "Please enter a valid phone number." }),
-    whatsapp: z.string().min(10, { message: "Please enter a valid whatsapp number." }),
+    whatsapp: z.string().optional().or(z.literal("")),
     bloodGroup: z.string().optional().or(z.literal("")),
     address: z.string().min(1, { message: "Address is required." }),
     city: z.string().min(1, { message: "City is required." }),
