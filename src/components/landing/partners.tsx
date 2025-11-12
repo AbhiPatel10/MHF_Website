@@ -12,6 +12,7 @@ const partners = [
   { name: 'LeaderShip', logo: '/Images/Partners/LeaderShip.png', aiHint: 'LeaderShip' },
   { name: 'Swastik Engineering', logo: '/Images/Partners/SwastikEngineeringBG.png', aiHint: 'Swastik Engineering' },
   { name: 'vLPO', logo: '/Images/Partners/vLPO.png', aiHint: 'vLPO' },
+  { name: 'RIL', logo: '/Images/Partners/RIL.jpeg', aiHint: 'RIL' },
 ];
 
 const allPartners = [...partners, ...partners];
