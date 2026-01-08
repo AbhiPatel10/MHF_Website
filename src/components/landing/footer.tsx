@@ -65,7 +65,7 @@ export const Footer: FC = () => {
                     <div className="lg:col-span-4">
                         <div className="navbar-header order-0 m-auto" style={{ flex: "0 0 auto" }}>
                             <Link className="navbar-brand" href="/">
-                                <img src="/logos/logo.png" alt="logo" width={100} height={100} />
+                                <img src="/logos/new_logo.png" alt="logo" style={{ width: "200px" }} width={100} height={100} />
                             </Link>
                         </div>
                         <p className="text-muted-foreground mt-4 max-w-xs">

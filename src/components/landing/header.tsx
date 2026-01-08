@@ -59,12 +59,12 @@ export const Header: FC = () => {
           href="/"
           className="flex items-center gap-2 font-bold text-xl select-none"
         >
-          <div className="relative w-[110px] h-[60px]">
+          <div className="relative w-[150px] h-[60px]">
             <Image
-              src="/logos/logo.png"
+              src="/logos/new_logo.png"
               alt="Mission Hope Logo"
               fill
-              sizes="110px"
+              sizes="150px"
               priority
               className="object-contain"
             />
@@ -161,10 +161,16 @@ export const Header: FC = () => {
                     className="flex items-center gap-2 font-bold text-2xl"
                     onClick={closeMobileMenu}
                   >
-                    <Sprout className="h-8 w-8 text-primary" />
-                    <span className="font-headline tracking-tighter">
-                      Mission Hope
-                    </span>
+                    <div className="relative w-[170px] h-[60px]">
+                      <Image
+                        src="/logos/new_logo.png"
+                        alt="Mission Hope Logo"
+                        fill
+                        sizes="170px"
+                        priority
+                        className="object-contain"
+                      />
+                    </div>
                   </Link>
                 </div>
 
